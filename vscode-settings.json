@@ -1,9 +1,15 @@
 {
-  "[go]": {
+    "[go]": {
+		"editor.insertSpaces": false,
 		"editor.formatOnSave": false,
 		"editor.codeActionsOnSave": {
 			"source.organizeImports": false
 		},
-	},
-	"go.formatTool": "gofmt",
+		"editor.suggest.snippetsPreventQuickSuggestions": false
+    },
+    "go.formatTool": "gofmt",
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+		"--fast"
+    ]
 }
