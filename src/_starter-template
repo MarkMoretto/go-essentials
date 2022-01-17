@@ -1,0 +1,63 @@
+package main
+
+/*****************************************************************************
+Starter "template" for quick Go progams/scripts.
+
+Includes some IO helpers, formatting constants, and slice/matrix objects.
+Feel free to delete/modify to suit your needs.
+*****************************************************************************/
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+
+const (
+	NL string = "\n"
+	CR string = "\r"
+	NS string = ""
+	WS string = " "
+	bNL byte = '\n'
+	MOD int = 1_000_000_007
+)
+
+// --- Format strings
+var fdNL string = "%d\n"
+var fdWS string = "%d "
+var fsNL string = "%s\n"
+var fsWS string = "%s "
+
+func main() {
+	defer wrtr.Flush()
+
+	pd:=&fdNL
+	var N int
+	scanf(*pd,&N)
+
+	// Slice with specifed size/capacity
+	m := make([]int, N)
+
+	// Slice with specified size of 0 and capacity of N.
+	m := make([]int, 0, N)
+
+	// Multidim Slice
+	mtrx := make([][]int,  N)
+
+	printf(*pd, N)
+}
+
+func iterMatrix(mm *[][]int) {
+	var i,j int = 0, 0
+	for i=0; i<len(mm); i++ {
+		for j=0; j<len(mm[i]); j++ {
+			printf("%d\n", mm[i][j])
+		}
+	}
+}
+
+// --- IO ---
+var rdr *bufio.Reader = bufio.NewReader(os.Stdin)
+func scanf(f string, a ...interface{}) { fmt.Fscanf(rdr, f, a...) }
+var wrtr *bufio.Writer = bufio.NewWriter(os.Stdout)
+func printf(f string, a ...interface{}) { fmt.Fprintf(wrtr, f, a...) }
