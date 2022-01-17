@@ -40,19 +40,30 @@ func main() {
 
 	// Slice with specified size of 0 and capacity of N.
 	m := make([]int, 0, N)
+	
+	var nRows, nCols int = 2, 1
+	var grid [][]int
+	// Craete empty grid of n rows and n columns
+	generateGrid(nRows, nCols, &grid)	
 
-	// Multidim Slice
-	mtrx := make([][]int,  N)
+	// Fill the grid with some numbers
+	var i = 0
+	for r := range grid {
+		for c := range grid[r] {
+			grid[r][c] = i
+			i++
+		}
+	}
+	fmt.Println(grid)
 
 	printf(*pd, N)
 }
 
-func iterMatrix(mm *[][]int) {
-	var i,j int = 0, 0
-	for i=0; i<len(mm); i++ {
-		for j=0; j<len(mm[i]); j++ {
-			printf("%d\n", mm[i][j])
-		}
+// Create a 2-d grid object.
+func generateGrid(rowCount int, columnCount int, mm *[][]int) {
+	*mm = make([][]int, rowCount)
+	for i := range *mm {
+		(*mm)[i] = make([]int, columnCount)
 	}
 }
 
