@@ -47,12 +47,13 @@ func DateTimeDemo() {
 }
 
 // Get TimeZone function
-func getTz(timezoneString string) (tz *time.Location) {
-	tz, e := time.LoadLocation()
-	if e := nil {
+func getTz(timezoneString string)  *time.Location {
+	tz, e := time.LoadLocation(timezoneString)
+	if e != nil {
 		fmt.Printf("%s\n", e)
+		return nil
 	}
-	return
+	return tz
 }
 
 
