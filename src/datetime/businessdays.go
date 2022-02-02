@@ -28,7 +28,7 @@ func DateTimeDemo() {
 	for successDays < nDays {
 		
 		// Increment base day by day counter.
-		tmpDttm = *pDttm.AddDate(0, 0, dayN)
+		tmpDttm = pDttm.AddDate(0, 0, dayN)
 		wkdy = int(tmpDttm.Weekday())
 		
 		// Weekday check.
