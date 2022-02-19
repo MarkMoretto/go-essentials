@@ -2,33 +2,61 @@ package main
 
 import "fmt"
 
+// ----------------- //
+// --- Interface --- //
+// ----------------- //
+
 type Vector interface {
+	NewVector(a ...interface{}) *vector
+
 	Len() int
 	Cap() int
 	LastIndex() int
 	IsFull() bool
-	NewVector(a ...interface{}) *vector
+
 	Append(a interface{})
 	Appends(a ...interface{})
 	PushBack(a interface{})
 	InsertAt(index int, a interface{})
+	PushFront(a interface{})
+
 	Pop() interface{}
 	PopFront() interface{}
-	PushFront(a interface{})
+	Delete(a interface{})
+	DeleteAll(a interface{})
+
 	Contains(a interface{}) bool
 	Find(a interface{}) int
 	FindAll(a interface{}) []int
-	Delete(a interface{})
-	DeleteAll(a interface{})
+
 	Uniques() *vector
+
 	Reverse()
 	ReverseReturn() *vector
+
 	View()
 	ViewList()
 }
 
+// ------------------------------ //
+// --- Types and Constructors --- //
+// ------------------------------ //
+
 // Base, generic vector type
 type vector []interface{}
+
+// Create and return new vector instance with items
+func NewVector(a ...interface{}) *vector {
+	var vec = new(vector)
+	for _, el := range a {
+		vec.PushBack(el)
+	}
+	return vec
+}
+
+// ---------------- //
+// --- Measures --- //
+// ---------------- //
 
 // Return length (size) of vector.
 func (v vector) Len() int { return len(v) }
@@ -46,16 +74,13 @@ func (v vector) LastIndex() int {
 
 // Quick check of space within vector instance.
 // Returns true if capacity equals length, false otherwise.
-func (v vector) IsFull() bool { return (v.Cap() - v.Len()) <= 0 }
-
-// Create and return new vector instance with items
-func NewVector(a ...interface{}) *vector {
-	var vec = new(vector)
-	for _, el := range a {
-		vec.PushBack(el)
-	}
-	return vec
+func (v vector) IsFull() bool {
+	return (v.Cap() - v.Len()) <= 0
 }
+
+// ----------------- //
+// --- Add Items --- //
+// ----------------- //
 
 // Append an item to a vector instance.
 func (v *vector) Append(a interface{}) {
@@ -71,7 +96,8 @@ func (v *vector) Appends(a ...interface{}) {
 
 // Alias for Append()
 func (v *vector) PushBack(a interface{}) {
-	*v = append(*v, a)
+	v.Append(a)
+	// *v = append(*v, a)
 }
 
 // Insert item at given index.
@@ -79,6 +105,16 @@ func (v *vector) InsertAt(index int, a interface{}) {
 	var vv *vector = &vector{a}
 	*v = append((*v)[:index], append(*vv, (*v)[index:]...)...)
 }
+
+// Push item to front of vector
+func (v *vector) PushFront(a interface{}) {
+	var vv *vector = &vector{a}
+	*v = append(*vv, *v...)
+}
+
+// -------------------- //
+// --- Remove Items --- //
+// -------------------- //
 
 // Pop last item from vector.
 func (v *vector) Pop() interface{} {
@@ -94,13 +130,26 @@ func (v *vector) PopFront() interface{} {
 	return out
 }
 
-// Push item to front of vector
-func (v *vector) PushFront(a interface{}) {
-	var vv *vector = &vector{a}
-	*v = append(*vv, *v...)
+// Delete first matching item from vector
+func (v *vector) Delete(a interface{}) {
+	idx := v.Find(a)
+	*v = append((*v)[:idx], (*v)[idx+1:])
 }
 
+// Delete all arguments from vector
+func (v *vector) DeleteAll(a interface{}) {
+	idxs := v.FindAll(a)
+	for _, idx := range idxs {
+		*v = append((*v)[:idx], (*v)[idx+1:])
+	}
+}
+
+// ---------------- //
+// --- Querying --- //
+// ---------------- //
+
 // Determine if item in vector
+// Relies upon Find() method
 func (v *vector) Contains(a interface{}) bool {
 	return v.Find(a) > -1
 }
@@ -128,19 +177,9 @@ func (v *vector) FindAll(a interface{}) []int {
 	return outs
 }
 
-// Delete first matching item from vector
-func (v *vector) Delete(a interface{}) {
-	idx := v.Find(a)
-	*v = append((*v)[:idx], (*v)[idx+1:])
-}
-
-// Delete all arguments from vector
-func (v *vector) DeleteAll(a interface{}) {
-	idxs := v.FindAll(a)
-	for _, idx := range idxs {
-		*v = append((*v)[:idx], (*v)[idx+1:])
-	}
-}
+// --------------- //
+// --- Special --- //
+// --------------- //
 
 // Unique values of vector instance.
 // Returned object is unsorted.
@@ -156,9 +195,9 @@ func (v *vector) Uniques() *vector {
 	return vout
 }
 
-// func (v *vector) InsertAt(index int, a interface{}) {
-// 	*v = append((*v)[:index], append([]a, (*v)[index:]...)...)
-// }
+// ---------------- //
+// --- Ordering --- //
+// ---------------- //
 
 // Reverse the order of a vector.
 // This mentod works inplace, so the original vector will be modified.
