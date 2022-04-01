@@ -4,15 +4,17 @@ package hacks
 
 import "fmt"
 
+type Ternary map[bool]int
+
 func TernaryDemo() {
 	var a, b int = 2, 4
     
-	ternaryMax := map[bool]int{
+	ternaryMax := Ternary{
 		true:  a,
 		false: b,
 	}[a >= b]
     
-	ternaryMin := map[bool]int{
+	ternaryMin := Ternary{
 		true:  a,
 		false: b,
 	}[a < b]
