@@ -22,17 +22,3 @@ func ConcatBy(delimiter string) func(string, string) string {
         // return s1 + delimiter + s2
     }
 }
-
-// Testing example.
-func ExampleConcatBy() {
-    cbh := ConcatByHyphen("-")
-    fmt.Println(cbh("followed", "by"))
-    fmt.Println(cbh("followed", ""))
-    fmt.Println(cbh("", "by"))
-    fmt.Println(cbh("", ""))
-    // Output:
-    // followed-by
-    // followed-
-    // -by
-    // -
-}
