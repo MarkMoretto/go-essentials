@@ -1,4 +1,4 @@
-package concatby
+package concat
 
 // Join two strings by provided delimiter.
 // Delimiter can be set early and the final
