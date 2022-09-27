@@ -1,4 +1,4 @@
-package generate
+package pythonic
 
 // Simple script to generate sequences of numbers.
 // Possible usage:
@@ -12,25 +12,22 @@ package generate
 
 import "fmt"
 
-type sequence struct {
-	start, stop, stepSize int32
-	numElements           int32
+type Range struct {
+	start, stop, stepSize int
 }
 
-func NewSequence() *sequence {
-	return &sequence{
+func NewRange() *Range {
+	return &Range{
 		stepSize: 1,
-		stop:     0,
-		start:    0,
 	}
 }
 
-func (s sequence) nValues() {
-	s.numElements = int32((s.stop - s.start) / s.stepSize)
+func (r Range) Size() int {
+	return (r.stop - r.start) / r.stepSize
 }
 
-func GenerateRange(startStopStep ...int32) []int32 {
-	var seq = NewSequence()
+func GenerateRange(startStopStep ...int) []int {
+	var seq = NewRange()
 
 	switch len(startStopStep) {
 	case 1:
@@ -46,7 +43,7 @@ func GenerateRange(startStopStep ...int32) []int32 {
 		return nil
 	}
 
-	var outs = make([]int32, 0, seq.numElements)
+	var outs = make([]int, 0, seq.Size())
 
 	for i := seq.start; i < seq.stop; i += seq.stepSize {
 		outs = append(outs, i)
@@ -54,7 +51,7 @@ func GenerateRange(startStopStep ...int32) []int32 {
 	return outs
 }
 
-func SequenceDemo() {
+func RangeDemo() {
 	r1 := GenerateRange(10)
 	fmt.Println(r1)
 	r2 := GenerateRange(1, 11)

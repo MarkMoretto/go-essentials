@@ -1,4 +1,4 @@
-package join
+package stringoperations
 
 import "testing"
 
